@@ -7,7 +7,10 @@ main : Program Never Model Msg
 main =
     Html.program { init = init, update = update, subscriptions = \_ -> Sub.none, view = view }
 
+
+
 -- MODEL
+
 
 type alias Model =
     { introScreen : String
@@ -33,7 +36,7 @@ type alias Question =
 
 type alias Choices =
     { correct : String
-    , wrong : List String
+    , allChoices : List String
     }
 
 
@@ -69,17 +72,18 @@ initQuestions =
             { question = "It's illegal to look at a candidate's social media accounts during the hiring process"
             , choices =
                 { correct = "False"
-                , wrong = [ "True" ]
+                , allChoices = [ "True", "False" ]
                 }
             }
         , nextQuestions =
             [ { question = "The ban-the-box movement's main goal is to remove what from the hiring process?"
               , choices =
                     { correct = "Criminal-record checkbox on applications"
-                    , wrong =
+                    , allChoices =
                         [ "Interview questions about convictions"
-                        , "All of the above"
+                        , "Criminal-record checkbox on applications"
                         , "Background checks"
+                        , "All of the above"
                         ]
                     }
               }
@@ -88,8 +92,9 @@ initQuestions =
                         ++ "Who faces legal repercussions if the notices aren't delivered to the candidate?"
               , choices =
                     { correct = "The employer"
-                    , wrong =
+                    , allChoices =
                         [ "The job candidate"
+                        , "The employer"
                         , "The data provider"
                         , "The CRA"
                         ]
@@ -100,17 +105,18 @@ initQuestions =
                         ++ "for people applying for positions that pay $75,000/year or more for how long?"
               , choices =
                     { correct = "Unlimited"
-                    , wrong =
+                    , allChoices =
                         [ "7 years"
                         , "5 years"
                         , "12 years"
+                        , "Unlimited"
                         ]
                     }
               }
             , { question = "The FCRA does not apply if you have job candidates pay to run a background check on themselves and show you the results."
               , choices =
                     { correct = "False"
-                    , wrong = [ "True" ]
+                    , allChoices = [ "True", "False" ]
                     }
               }
             ]
@@ -136,18 +142,26 @@ initScoreScreen =
         ]
     }
 
+
+
 -- UPDATE
 
-type Msg = NoOp
 
-update : Msg -> Model -> (Model, Cmd Msg)
+type Msg
+    = NoOp
+
+
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-  case msg of
-    NoOp ->
-      (model, Cmd.none)
+    case msg of
+        NoOp ->
+            ( model, Cmd.none )
+
+
 
 -- VIEW
 
+
 view : Model -> Html Msg
 view model =
-  p [] [text "Your app has compiled"]
+    p [] [ text "Your app has compiled" ]
