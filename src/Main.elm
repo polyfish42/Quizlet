@@ -14,30 +14,19 @@ main =
 
 type alias Model =
     { introScreen : String
-    , history : History
+    , questions : List Question
     , scoreScreen : ScoreScreen
     , endScreen : String
     }
 
 
-type History
-    = History
-        { previousQuestions : List Question
-        , currentQuestion : Question
-        , nextQuestions : List Question
-        }
-
-
 type alias Question =
-    { question : String
-    , choices : Choices
-    }
+    ( String, List Choice )
 
 
-type alias Choices =
-    { correct : String
-    , allChoices : List String
-    }
+type Choice
+    = Correct String
+    | Wrong String
 
 
 type alias ScoreScreen =
@@ -56,7 +45,7 @@ type alias Dropdown =
 init : ( Model, Cmd Msg )
 init =
     ( { introScreen = "Hello and welcome to my quiz"
-      , history = initQuestions
+      , questions = initQuestions
       , scoreScreen = initScoreScreen
       , endScreen = "Hello"
       }
@@ -64,63 +53,44 @@ init =
     )
 
 
-initQuestions : History
+initQuestions : List ( String, List Choice )
 initQuestions =
-    History
-        { previousQuestions = []
-        , currentQuestion =
-            { question = "It's illegal to look at a candidate's social media accounts during the hiring process"
-            , choices =
-                { correct = "False"
-                , allChoices = [ "True", "False" ]
-                }
-            }
-        , nextQuestions =
-            [ { question = "The ban-the-box movement's main goal is to remove what from the hiring process?"
-              , choices =
-                    { correct = "Criminal-record checkbox on applications"
-                    , allChoices =
-                        [ "Interview questions about convictions"
-                        , "Criminal-record checkbox on applications"
-                        , "Background checks"
-                        , "All of the above"
-                        ]
-                    }
-              }
-            , { question =
-                    "Adverse action notices are legally required when you decide not to hire someone because of a background check. "
-                        ++ "Who faces legal repercussions if the notices aren't delivered to the candidate?"
-              , choices =
-                    { correct = "The employer"
-                    , allChoices =
-                        [ "The job candidate"
-                        , "The employer"
-                        , "The data provider"
-                        , "The CRA"
-                        ]
-                    }
-              }
-            , { question =
-                    "According to the FCRA, a background check company may report criminal convictions "
-                        ++ "for people applying for positions that pay $75,000/year or more for how long?"
-              , choices =
-                    { correct = "Unlimited"
-                    , allChoices =
-                        [ "7 years"
-                        , "5 years"
-                        , "12 years"
-                        , "Unlimited"
-                        ]
-                    }
-              }
-            , { question = "The FCRA does not apply if you have job candidates pay to run a background check on themselves and show you the results."
-              , choices =
-                    { correct = "False"
-                    , allChoices = [ "True", "False" ]
-                    }
-              }
-            ]
-        }
+    [ ( "It's illegal to look at a candidate's social media accounts during the hiring process"
+      , [ Wrong "True"
+        , Correct "False"
+        ]
+      )
+    , ( "The ban-the-box movement's main goal is to remove what from the hiring process?"
+      , [ Wrong "Interview questions about convictions"
+        , Correct "Criminal-record checkbox on applications"
+        , Wrong "Background checks"
+        , Wrong "All of the above"
+        ]
+      )
+    , ( "Adverse action notices are legally required when you decide not to hire someone "
+            ++ "because of a background check. Who faces legal repercussions if the notices "
+            ++ "aren't delivered to the candidate?"
+      , [ Wrong "The job candidate"
+        , Wrong "The data provider"
+        , Wrong "The CRA"
+        , Correct "The employer"
+        ]
+      )
+    , ( "According to the FCRA, a background check company may report criminal convictions "
+            ++ "for people applying for positions that pay $75,000/year or more for how long?"
+      , [ Wrong "5 years"
+        , Wrong "7 years"
+        , Wrong "12 years"
+        , Correct "Unlimited"
+        ]
+      )
+    , ( "The FCRA does not apply if you have job candidates pay to run a background check on "
+            ++ "themselves and show you the results."
+      , [ Wrong "True"
+        , Correct "False"
+        ]
+      )
+    ]
 
 
 initScoreScreen : ScoreScreen
