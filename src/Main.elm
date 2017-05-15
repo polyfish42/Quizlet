@@ -1,7 +1,7 @@
 port module Main exposing (..)
 
 import Html exposing (..)
-
+import Html.Events exposing (..)
 
 main : Program Never Model Msg
 main =
@@ -19,7 +19,7 @@ type alias Model =
 type Screen
     = Intro String
     | Question ( String, List Choice )
-    | ScoreScreen Form
+    | Results Form
     | End String
 
 
@@ -43,14 +43,16 @@ type alias Dropdown =
 
 init : ( Model, Cmd Msg )
 init =
-    ( { screens = intro :: initQuestions ++ initForm :: end :: [] }, Cmd.none )
+    ( { screens = intro :: questions ++ results :: end :: [] }, Cmd.none )
+
 
 intro : Screen
 intro =
-  Intro "Think you know the rules? Find out now!"
+    Intro "Think you know the rules? Find out now!"
 
-initQuestions : List Screen
-initQuestions =
+
+questions : List Screen
+questions =
     [ Question
         ( "It's illegal to look at a candidate's social media accounts during the hiring process"
         , [ Wrong "True"
@@ -94,9 +96,9 @@ initQuestions =
     ]
 
 
-initForm : Screen
-initForm =
-    ScoreScreen
+results : Screen
+results =
+    Results
         { text = "You got 100% correct. Enter your work email to get the detailed answer guide."
         , formfields = [ "Work Email", "Name" ]
         , dropdowns =
@@ -114,23 +116,25 @@ initForm =
             ]
         }
 
+
 end : Screen
 end =
-  End "Thank you! Please check your email to see your answers."
+    End "Thank you! Please check your email to see your answers."
+
 
 
 -- UPDATE
 
 
 type Msg
-    = NoOp
+    = AdvanceScreen
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        NoOp ->
-            ( model, Cmd.none )
+        AdvanceScreen ->
+            ( { model | screens = List.drop 1 model.screens }, Cmd.none )
 
 
 
@@ -139,4 +143,20 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    p [] [ text "Your app has compiled" ]
+  case currentScreen model.screens of
+    Intro str ->
+      p [ onClick AdvanceScreen ] [ text str ]
+    Question (question, choices) ->
+      p [ onClick AdvanceScreen ] [ text question ]
+    Results form_ ->
+      p [ onClick AdvanceScreen ] [ text "Form" ]
+    End str ->
+      p [] [ text str ]
+
+currentScreen : List Screen -> Screen
+currentScreen screenList =
+  case List.head screenList of
+    Just screen ->
+      screen
+    Nothing ->
+      end
