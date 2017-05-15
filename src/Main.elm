@@ -13,15 +13,14 @@ main =
 
 
 type alias Model =
-    { introScreen : String
-    , questions : List Question
-    , scoreScreen : ScoreScreen
-    , endScreen : String
-    }
+    { screens : List Screen }
 
 
-type alias Question =
-    ( String, List Choice )
+type Screen
+    = Intro String
+    | Question ( String, List Choice )
+    | ScoreScreen Form
+    | End String
 
 
 type Choice
@@ -29,7 +28,7 @@ type Choice
     | Wrong String
 
 
-type alias ScoreScreen =
+type alias Form =
     { text : String
     , formfields : List String
     , dropdowns : List Dropdown
@@ -44,74 +43,80 @@ type alias Dropdown =
 
 init : ( Model, Cmd Msg )
 init =
-    ( { introScreen = "Hello and welcome to my quiz"
-      , questions = initQuestions
-      , scoreScreen = initScoreScreen
-      , endScreen = "Hello"
-      }
-    , Cmd.none
-    )
+    ( { screens = intro :: initQuestions ++ initForm :: end :: [] }, Cmd.none )
 
+intro : Screen
+intro =
+  Intro "Think you know the rules? Find out now!"
 
-initQuestions : List ( String, List Choice )
+initQuestions : List Screen
 initQuestions =
-    [ ( "It's illegal to look at a candidate's social media accounts during the hiring process"
-      , [ Wrong "True"
-        , Correct "False"
-        ]
-      )
-    , ( "The ban-the-box movement's main goal is to remove what from the hiring process?"
-      , [ Wrong "Interview questions about convictions"
-        , Correct "Criminal-record checkbox on applications"
-        , Wrong "Background checks"
-        , Wrong "All of the above"
-        ]
-      )
-    , ( "Adverse action notices are legally required when you decide not to hire someone "
+    [ Question
+        ( "It's illegal to look at a candidate's social media accounts during the hiring process"
+        , [ Wrong "True"
+          , Correct "False"
+          ]
+        )
+    , Question
+        ( "The ban-the-box movement's main goal is to remove what from the hiring process?"
+        , [ Wrong "Interview questions about convictions"
+          , Correct "Criminal-record checkbox on applications"
+          , Wrong "Background checks"
+          , Wrong "All of the above"
+          ]
+        )
+    , Question
+        ( "Adverse action notices are legally required when you decide not to hire someone "
             ++ "because of a background check. Who faces legal repercussions if the notices "
             ++ "aren't delivered to the candidate?"
-      , [ Wrong "The job candidate"
-        , Wrong "The data provider"
-        , Wrong "The CRA"
-        , Correct "The employer"
-        ]
-      )
-    , ( "According to the FCRA, a background check company may report criminal convictions "
+        , [ Wrong "The job candidate"
+          , Wrong "The data provider"
+          , Wrong "The CRA"
+          , Correct "The employer"
+          ]
+        )
+    , Question
+        ( "According to the FCRA, a background check company may report criminal convictions "
             ++ "for people applying for positions that pay $75,000/year or more for how long?"
-      , [ Wrong "5 years"
-        , Wrong "7 years"
-        , Wrong "12 years"
-        , Correct "Unlimited"
-        ]
-      )
-    , ( "The FCRA does not apply if you have job candidates pay to run a background check on "
+        , [ Wrong "5 years"
+          , Wrong "7 years"
+          , Wrong "12 years"
+          , Correct "Unlimited"
+          ]
+        )
+    , Question
+        ( "The FCRA does not apply if you have job candidates pay to run a background check on "
             ++ "themselves and show you the results."
-      , [ Wrong "True"
-        , Correct "False"
-        ]
-      )
+        , [ Wrong "True"
+          , Correct "False"
+          ]
+        )
     ]
 
 
-initScoreScreen : ScoreScreen
-initScoreScreen =
-    { text = "You got 100% correct. Enter your work email to get the detailed answer guide."
-    , formfields = [ "Work Email", "Name" ]
-    , dropdowns =
-        [ { placeholder = "How many background checks will you run this year?"
-          , options =
-                [ "1 - 10 per year"
-                , "10 - 25 per year"
-                , "25 - 150 per year"
-                , "150 - 500 per year"
-                , "500 - 1500 per year"
-                , "1500 - 2500 per year"
-                , "Over 2500 per year"
-                ]
-          }
-        ]
-    }
+initForm : Screen
+initForm =
+    ScoreScreen
+        { text = "You got 100% correct. Enter your work email to get the detailed answer guide."
+        , formfields = [ "Work Email", "Name" ]
+        , dropdowns =
+            [ { placeholder = "How many background checks will you run this year?"
+              , options =
+                    [ "1 - 10 per year"
+                    , "10 - 25 per year"
+                    , "25 - 150 per year"
+                    , "150 - 500 per year"
+                    , "500 - 1500 per year"
+                    , "1500 - 2500 per year"
+                    , "Over 2500 per year"
+                    ]
+              }
+            ]
+        }
 
+end : Screen
+end =
+  End "Thank you! Please check your email to see your answers."
 
 
 -- UPDATE
