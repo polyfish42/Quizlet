@@ -2,6 +2,8 @@ port module Main exposing (..)
 
 import Html exposing (..)
 import Html.Events exposing (..)
+import Html.Attributes exposing (value)
+
 
 main : Program Never Model Msg
 main =
@@ -13,7 +15,9 @@ main =
 
 
 type alias Model =
-    { screens : List Screen }
+    { screens : List Screen
+    , score : Int
+    }
 
 
 type Screen
@@ -29,7 +33,7 @@ type Choice
 
 
 type alias Form =
-    { text : String
+    { resultMessageParts : ( String, String )
     , formfields : List String
     , dropdowns : List Dropdown
     }
@@ -43,7 +47,11 @@ type alias Dropdown =
 
 init : ( Model, Cmd Msg )
 init =
-    ( { screens = intro :: questions ++ results :: end :: [] }, Cmd.none )
+    ( { screens = intro :: questions ++ results :: end :: []
+      , score = 0
+      }
+    , Cmd.none
+    )
 
 
 intro : Screen
@@ -99,7 +107,7 @@ questions =
 results : Screen
 results =
     Results
-        { text = "You got 100% correct. Enter your work email to get the detailed answer guide."
+        { resultMessageParts = ( "You got ", "% correct. Enter your work email to get the detailed answer guide." )
         , formfields = [ "Work Email", "Name" ]
         , dropdowns =
             [ { placeholder = "How many background checks will you run this year?"
@@ -127,14 +135,32 @@ end =
 
 
 type Msg
-    = AdvanceScreen
+    = NextScreen
+    | AnsweredCorrect
+    | AnsweredWrong
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        AdvanceScreen ->
+        NextScreen ->
             ( { model | screens = List.drop 1 model.screens }, Cmd.none )
+
+        AnsweredCorrect ->
+            ( { model
+                | score = totalScore model
+                , screens = List.drop 1 model.screens
+              }
+            , Cmd.none
+            )
+
+        AnsweredWrong ->
+            ( { model | screens = List.drop 1 model.screens }, Cmd.none )
+
+
+totalScore : Model -> Int
+totalScore model =
+    model.score + (100 // List.length questions)
 
 
 
@@ -143,20 +169,75 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-  case currentScreen model.screens of
-    Intro str ->
-      p [ onClick AdvanceScreen ] [ text str ]
-    Question (question, choices) ->
-      p [ onClick AdvanceScreen ] [ text question ]
-    Results form_ ->
-      p [ onClick AdvanceScreen ] [ text "Form" ]
-    End str ->
-      p [] [ text str ]
+    case currentScreen model.screens of
+        Intro str ->
+            viewIntro str
+
+        Question ( question, choices ) ->
+            viewQuestion question choices
+
+        Results { resultMessageParts, formfields, dropdowns } ->
+            viewResults model resultMessageParts formfields dropdowns
+
+        End str ->
+            p [] [ text str ]
+
 
 currentScreen : List Screen -> Screen
 currentScreen screenList =
-  case List.head screenList of
-    Just screen ->
-      screen
-    Nothing ->
-      end
+    case List.head screenList of
+        Just screen ->
+            screen
+
+        Nothing ->
+            end
+
+
+viewIntro : String -> Html Msg
+viewIntro str =
+    div []
+        [ p [] [ text str ]
+        , button [ onClick NextScreen ] [ text "GET STARTED" ]
+        ]
+
+
+viewQuestion : String -> List Choice -> Html Msg
+viewQuestion question choices =
+    div [] <|
+        [ p [] [ text question ] ]
+            ++ List.map viewChoice choices
+
+
+viewChoice : Choice -> Html Msg
+viewChoice choice =
+    case choice of
+        Correct str ->
+            button [ onClick AnsweredCorrect ] [ text str ]
+
+        Wrong str ->
+            button [ onClick AnsweredWrong ] [ text str ]
+
+
+viewResults : Model -> ( String, String ) -> List String -> List a -> Html Msg
+viewResults model ( messageStart, messageEnd ) formfields dropdowns =
+    div []
+        [ p [] [ text <| messageStart ++ toString model.score ++ messageEnd ]
+        , viewForm formfields
+        ]
+
+
+viewForm : List String -> Html Msg
+viewForm fields =
+    let
+        viewInput field =
+            input [ value (toString field) ] []
+    in
+        form [] <|
+            List.map viewInput fields
+                ++ [ button [ onClick NextScreen ] [ text "Submit" ] ]
+
+
+viewEnd : String -> Html Msg
+viewEnd str =
+    div []
+        [ p [] [ text str ] ]
