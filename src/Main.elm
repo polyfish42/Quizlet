@@ -2,7 +2,7 @@ port module Main exposing (..)
 
 import Html exposing (..)
 import Html.Events exposing (..)
-import Html.Attributes exposing (value)
+import Html.Attributes exposing (value, disabled, selected)
 
 
 main : Program Never Model Msg
@@ -35,7 +35,7 @@ type Choice
 type alias Form =
     { resultMessageParts : ( String, String )
     , formfields : List String
-    , dropdowns : List Dropdown
+    , dropdown : Dropdown
     }
 
 
@@ -109,19 +109,18 @@ results =
     Results
         { resultMessageParts = ( "You got ", "% correct. Enter your work email to get the detailed answer guide." )
         , formfields = [ "Work Email", "Name" ]
-        , dropdowns =
-            [ { placeholder = "How many background checks will you run this year?"
-              , options =
-                    [ "1 - 10 per year"
-                    , "10 - 25 per year"
-                    , "25 - 150 per year"
-                    , "150 - 500 per year"
-                    , "500 - 1500 per year"
-                    , "1500 - 2500 per year"
-                    , "Over 2500 per year"
-                    ]
-              }
-            ]
+        , dropdown =
+            { placeholder = "- Please Select -"
+            , options =
+                [ "1 - 10 per year"
+                , "10 - 25 per year"
+                , "25 - 150 per year"
+                , "150 - 500 per year"
+                , "500 - 1500 per year"
+                , "1500 - 2500 per year"
+                , "Over 2500 per year"
+                ]
+            }
         }
 
 
@@ -137,7 +136,6 @@ end =
 type Msg
     = NextScreen
     | AnsweredCorrect
-    | AnsweredWrong
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -153,9 +151,6 @@ update msg model =
               }
             , Cmd.none
             )
-
-        AnsweredWrong ->
-            ( { model | screens = List.drop 1 model.screens }, Cmd.none )
 
 
 totalScore : Model -> Int
@@ -176,8 +171,8 @@ view model =
         Question ( question, choices ) ->
             viewQuestion question choices
 
-        Results { resultMessageParts, formfields, dropdowns } ->
-            viewResults model resultMessageParts formfields dropdowns
+        Results { resultMessageParts, formfields, dropdown } ->
+            viewResults model resultMessageParts formfields dropdown
 
         End str ->
             p [] [ text str ]
@@ -215,25 +210,26 @@ viewChoice choice =
             button [ onClick AnsweredCorrect ] [ text str ]
 
         Wrong str ->
-            button [ onClick AnsweredWrong ] [ text str ]
+            button [ onClick NextScreen ] [ text str ]
 
 
-viewResults : Model -> ( String, String ) -> List String -> List a -> Html Msg
-viewResults model ( messageStart, messageEnd ) formfields dropdowns =
+viewResults : Model -> ( String, String ) -> List String -> Dropdown -> Html Msg
+viewResults model ( messageStart, messageEnd ) formfields dropdown =
     div []
         [ p [] [ text <| messageStart ++ toString model.score ++ messageEnd ]
-        , viewForm formfields
+        , viewForm formfields dropdown
         ]
 
 
-viewForm : List String -> Html Msg
-viewForm fields =
+viewForm : List String -> Dropdown -> Html Msg
+viewForm fields dropdown =
     let
         viewInput field =
             input [ value (toString field) ] []
     in
-        form [] <|
+        div [] <|
             List.map viewInput fields
+                ++ [ select [] <| viewDropdown dropdown ]
                 ++ [ button [ onClick NextScreen ] [ text "Submit" ] ]
 
 
@@ -241,3 +237,13 @@ viewEnd : String -> Html Msg
 viewEnd str =
     div []
         [ p [] [ text str ] ]
+
+
+viewDropdown : Dropdown -> List (Html Msg)
+viewDropdown dropdown =
+    let
+        viewOption optionText =
+            option [] [ text optionText ]
+    in
+        option [ disabled True, selected True ] [ text dropdown.placeholder ]
+            :: List.map viewOption dropdown.options
