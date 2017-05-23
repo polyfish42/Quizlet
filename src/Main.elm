@@ -2,7 +2,8 @@ port module Main exposing (..)
 
 import Html exposing (..)
 import Html.Events exposing (..)
-import Html.Attributes exposing (value, disabled, selected)
+import Html.Attributes exposing (value, disabled, selected, action, placeholder)
+import Json.Decode
 
 
 main : Program Never Model Msg
@@ -17,14 +18,17 @@ main =
 type alias Model =
     { screens : List Screen
     , score : Int
+    , name : String
+    , workEmail : String
+    , expectedChecksPerYear : String
     }
 
 
 type Screen
-    = Intro String
+    = Intro
     | Question ( String, List Choice )
-    | Results Form
-    | End String
+    | Results
+    | End
 
 
 type Choice
@@ -32,31 +36,16 @@ type Choice
     | Wrong String
 
 
-type alias Form =
-    { resultMessageParts : ( String, String )
-    , formfields : List String
-    , dropdown : Dropdown
-    }
-
-
-type alias Dropdown =
-    { placeholder : String
-    , options : List String
-    }
-
-
 init : ( Model, Cmd Msg )
 init =
-    ( { screens = intro :: questions ++ results :: end :: []
+    ( { screens = Intro :: questions ++ Results :: End :: []
       , score = 0
+      , expectedChecksPerYear = ""
+      , name = ""
+      , workEmail = ""
       }
     , Cmd.none
     )
-
-
-intro : Screen
-intro =
-    Intro "Think you know the rules? Find out now!"
 
 
 questions : List Screen
@@ -104,31 +93,6 @@ questions =
     ]
 
 
-results : Screen
-results =
-    Results
-        { resultMessageParts = ( "You got ", "% correct. Enter your work email to get the detailed answer guide." )
-        , formfields = [ "Work Email", "Name" ]
-        , dropdown =
-            { placeholder = "- Please Select -"
-            , options =
-                [ "1 - 10 per year"
-                , "10 - 25 per year"
-                , "25 - 150 per year"
-                , "150 - 500 per year"
-                , "500 - 1500 per year"
-                , "1500 - 2500 per year"
-                , "Over 2500 per year"
-                ]
-            }
-        }
-
-
-end : Screen
-end =
-    End "Thank you! Please check your email to see your answers."
-
-
 
 -- UPDATE
 
@@ -136,6 +100,9 @@ end =
 type Msg
     = NextScreen
     | AnsweredCorrect
+    | ExpectedChecksPerYear String
+    | Name String
+    | WorkEmail String
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -152,6 +119,15 @@ update msg model =
             , Cmd.none
             )
 
+        ExpectedChecksPerYear opt ->
+            ( { model | expectedChecksPerYear = opt }, Cmd.none )
+
+        Name str ->
+            ( { model | name = str }, Cmd.none )
+
+        WorkEmail str ->
+            ( { model | workEmail = str }, Cmd.none )
+
 
 totalScore : Model -> Int
 totalScore model =
@@ -165,17 +141,17 @@ totalScore model =
 view : Model -> Html Msg
 view model =
     case currentScreen model.screens of
-        Intro str ->
-            viewIntro str
+        Intro ->
+            viewIntro
 
         Question ( question, choices ) ->
             viewQuestion question choices
 
-        Results { resultMessageParts, formfields, dropdown } ->
-            viewResults model resultMessageParts formfields dropdown
+        Results ->
+            viewResults model
 
-        End str ->
-            p [] [ text str ]
+        End ->
+            viewEnd
 
 
 currentScreen : List Screen -> Screen
@@ -185,13 +161,13 @@ currentScreen screenList =
             screen
 
         Nothing ->
-            end
+            End
 
 
-viewIntro : String -> Html Msg
-viewIntro str =
+viewIntro : Html Msg
+viewIntro =
     div []
-        [ p [] [ text str ]
+        [ p [] [ text "Think you know the rules? Find out now!" ]
         , button [ onClick NextScreen ] [ text "GET STARTED" ]
         ]
 
@@ -213,37 +189,44 @@ viewChoice choice =
             button [ onClick NextScreen ] [ text str ]
 
 
-viewResults : Model -> ( String, String ) -> List String -> Dropdown -> Html Msg
-viewResults model ( messageStart, messageEnd ) formfields dropdown =
+viewResults : Model -> Html Msg
+viewResults model =
     div []
-        [ p [] [ text <| messageStart ++ toString model.score ++ messageEnd ]
-        , viewForm formfields dropdown
+        [ p [] [ text <| "You got " ++ toString model.score ++ "% correct. Enter your work email to get the detailed answer guide." ]
+        , viewForm
         ]
 
 
-viewForm : List String -> Dropdown -> Html Msg
-viewForm fields dropdown =
-    let
-        viewInput field =
-            input [ value (toString field) ] []
-    in
-        div [] <|
-            List.map viewInput fields
-                ++ [ select [] <| viewDropdown dropdown ]
-                ++ [ button [ onClick NextScreen ] [ text "Submit" ] ]
+viewForm : Html Msg
+viewForm =
+    form [ onSubmit NextScreen ] <|
+        [ input [ placeholder "Work Email", onInput WorkEmail ] [] ]
+            ++ [ input [ placeholder "Name", onInput Name ] [] ]
+            ++ [ select [ onInput ExpectedChecksPerYear ] <| viewDropdown ]
+            ++ [ button [] [ text "Submit" ] ]
 
 
-viewEnd : String -> Html Msg
-viewEnd str =
-    div []
-        [ p [] [ text str ] ]
-
-
-viewDropdown : Dropdown -> List (Html Msg)
-viewDropdown dropdown =
+viewDropdown : List (Html Msg)
+viewDropdown =
     let
         viewOption optionText =
-            option [] [ text optionText ]
+            option [ value optionText ] [ text optionText ]
+
+        options =
+            [ "1 - 10 per year"
+            , "10 - 25 per year"
+            , "25 - 150 per year"
+            , "150 - 500 per year"
+            , "500 - 1500 per year"
+            , "1500 - 2500 per year"
+            , "Over 2500 per year"
+            ]
     in
-        option [ disabled True, selected True ] [ text dropdown.placeholder ]
-            :: List.map viewOption dropdown.options
+        option [ disabled True, selected True ] [ text "- Please Select -" ]
+            :: List.map viewOption options
+
+
+viewEnd : Html Msg
+viewEnd =
+    div []
+        [ p [] [ text "Thank you! Please check your email to see your answers." ] ]
