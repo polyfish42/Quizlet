@@ -3,7 +3,11 @@ port module Quizlet exposing (..)
 import Html exposing (..)
 import Html.Events exposing (..)
 import Html.Attributes exposing (value, disabled, selected, action, placeholder)
+import Http
 import Json.Decode
+import Json.Encode as E
+import Task
+import Window
 
 
 main : Program Never Model Msg
@@ -21,6 +25,10 @@ type alias Model =
     , name : String
     , workEmail : String
     , expectedChecksPerYear : String
+    , error : Maybe String
+    , cookie : String
+    , quizSize : Float
+    , ipAddress : String
     }
 
 
@@ -43,9 +51,22 @@ init =
       , expectedChecksPerYear = ""
       , name = ""
       , workEmail = ""
+      , error = Nothing
+      , cookie = ""
+      , quizSize = 700.0
+      , ipAddress = ""
       }
-    , Cmd.none
+    , Cmd.batch [ (getCookie "hubspotutk"), (Task.perform Resize Window.width) ]
     )
+
+
+port getCookie : String -> Cmd msg
+
+
+getIpAddress : Cmd Msg
+getIpAddress =
+    Http.send IpAddressResponse <|
+        Http.get "http://freegeoip.net/json/" (Json.Decode.field "ip" Json.Decode.string)
 
 
 questions : List Screen
@@ -98,16 +119,42 @@ questions =
 
 
 type Msg
-    = NextScreen
+    = Resize Int
+    | Cookie String
+    | IpAddressResponse (Result Http.Error String)
+    | NextScreen
     | AnsweredCorrect
-    | ExpectedChecksPerYear String
     | Name String
     | WorkEmail String
+    | ExpectedChecksPerYear String
+    | EmailError
+    | Submit
+    | HubspotResponse (Result Http.Error ())
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
+        Resize int ->
+            ( { model
+                | quizSize =
+                    if int < 700 then
+                        (toFloat int) / 700
+                    else
+                        1
+              }
+            , Cmd.none
+            )
+
+        Cookie str ->
+            ( { model | cookie = str }, Cmd.none )
+
+        IpAddressResponse (Ok str) ->
+            ( { model | ipAddress = str }, Cmd.none )
+
+        IpAddressResponse (Err _) ->
+            ( model, Cmd.none )
+
         NextScreen ->
             ( { model | screens = List.drop 1 model.screens }, Cmd.none )
 
@@ -119,19 +166,89 @@ update msg model =
             , Cmd.none
             )
 
-        ExpectedChecksPerYear opt ->
-            ( { model | expectedChecksPerYear = opt }, Cmd.none )
-
         Name str ->
             ( { model | name = str }, Cmd.none )
 
         WorkEmail str ->
             ( { model | workEmail = str }, Cmd.none )
 
+        ExpectedChecksPerYear opt ->
+            ( { model | expectedChecksPerYear = opt }, Cmd.none )
+
+        EmailError ->
+            ( { model | error = Just "Please enter your work email." }, Cmd.none )
+
+        Submit ->
+            ( model, submitForm model )
+
+        HubspotResponse (Ok str) ->
+            ( { model | screens = List.drop 1 model.screens }, Cmd.none )
+
+        HubspotResponse (Err _) ->
+            ( { model | error = Just "There's been an error, please try again later." }, Cmd.none )
+
 
 totalScore : Int -> Int
 totalScore score =
     score + (100 // List.length questions)
+
+
+submitForm : Model -> Cmd Msg
+submitForm model =
+    Http.send HubspotResponse <|
+        postToHubspot model
+
+
+postToHubspot : Model -> Http.Request ()
+postToHubspot model =
+    Http.request
+        { method = "POST"
+        , headers = []
+        , url = url model
+        , body = Http.emptyBody
+        , expect = Http.expectStringResponse (\_ -> Ok ())
+        , timeout = Nothing
+        , withCredentials = False
+        }
+
+
+url : Model -> String
+url model =
+    "https://forms.hubspot.com/uploads/form/v2/<PORTAL_ID>/<FORM_ID>"
+        ++ "?email="
+        ++ model.workEmail
+        ++ "&firstname="
+        ++ (Maybe.withDefault "" <| List.head (String.split " " model.name))
+        ++ "&expected_checks_per_year="
+        ++ model.expectedChecksPerYear
+        ++ "&lead_source_details__c=goodhire.com/compliance-quiz"
+        ++ "&hs_context="
+        ++ hsContextParam model
+
+
+hsContextParam : Model -> String
+hsContextParam model =
+    E.object
+        [ ( "hutk", E.string model.cookie )
+        , ( "ipaddress", E.string model.ipAddress )
+        , ( "pageUrl", E.string "https://www.goodhire.com/compliance-quiz" )
+        , ( "pageName", E.string "2017_Q1_DG_ComplianceCampaign_ComplianceQuizLP" )
+        , ( "redirectUrl", E.string "https://www.goodhire.com/compliance-quiz" )
+        ]
+        |> E.encode 0
+        |> Http.encodeUri
+
+
+
+-- SUBSCRIPTIONS
+
+
+port hubspotCookie : (String -> msg) -> Sub msg
+
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    Sub.batch [ (hubspotCookie Cookie), (Window.resizes (\x -> Resize x.width)) ]
 
 
 
@@ -164,12 +281,20 @@ currentScreen screenList =
             End
 
 
+
+-- Intro
+
+
 viewIntro : Html Msg
 viewIntro =
     div []
         [ p [] [ text "Think you know the rules? Find out now!" ]
         , button [ onClick NextScreen ] [ text "GET STARTED" ]
         ]
+
+
+
+-- Questions
 
 
 viewQuestion : String -> List Choice -> Html Msg
@@ -189,21 +314,50 @@ viewChoice choice =
             button [ onClick NextScreen ] [ text str ]
 
 
+
+-- Results
+
+
 viewResults : Model -> Html Msg
 viewResults model =
     div []
         [ p [] [ text <| "You got " ++ toString model.score ++ "% correct. Enter your work email to get the detailed answer guide." ]
-        , viewForm
+        , viewForm model
         ]
 
 
-viewForm : Html Msg
-viewForm =
-    form [ onSubmit NextScreen ] <|
+viewForm : Model -> Html Msg
+viewForm model =
+    form [ onSubmit <| validateForm model.workEmail ] <|
         [ input [ placeholder "Work Email", onInput WorkEmail ] [] ]
             ++ [ input [ placeholder "Name", onInput Name ] [] ]
             ++ [ select [ onInput ExpectedChecksPerYear ] <| viewDropdown ]
             ++ [ button [] [ text "Submit" ] ]
+
+
+validateForm : String -> Msg
+validateForm email =
+    if email == "" then
+        EmailError
+    else if onBlacklist email then
+        EmailError
+    else
+        Submit
+
+
+onBlacklist : String -> Bool
+onBlacklist email =
+    case List.filter (String.contains email) blacklistedEmails of
+        [] ->
+            False
+
+        _ ->
+            True
+
+
+blacklistedEmails : List String
+blacklistedEmails =
+    [ "outlook.com", "gmail.com", "yahoo.com", "inbox.com", "@me.com", "mail.com", "aol.com", "zoho.com", "yandex.com", "hotmail.com" ]
 
 
 viewDropdown : List (Html Msg)
@@ -224,6 +378,10 @@ viewDropdown =
     in
         option [ disabled True, selected True ] [ text "- Please Select -" ]
             :: List.map viewOption options
+
+
+
+-- End
 
 
 viewEnd : Html Msg
