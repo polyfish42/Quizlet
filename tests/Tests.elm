@@ -4,7 +4,7 @@ import Test exposing (..)
 import Expect
 import Fuzz exposing (list, int, tuple, string)
 import String
-import Quizlet exposing (totalScore)
+import Quizlet exposing (totalScore, onBlacklist)
 
 
 all : Test
@@ -17,4 +17,9 @@ all =
                         num
                 in
                     Expect.equal (totalScore score) (num + 20)
+        , test "Validate that it's a work email" <|
+            \() ->
+                [ "test@outlook.com", "gmail@gmail.com", "yahoo.com", "inbox.com", "@me.com", "mail.net", "aol.com", "hotmail.com" ]
+                    |> List.map onBlacklist
+                    |> Expect.equal [ True, True, True, True, True, False, True, True ]
         ]

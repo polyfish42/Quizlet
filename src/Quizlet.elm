@@ -196,11 +196,11 @@ totalScore score =
 submitForm : Model -> Cmd Msg
 submitForm model =
     Http.send HubspotResponse <|
-        postToHubspot model
+        hubspotRequest model
 
 
-postToHubspot : Model -> Http.Request ()
-postToHubspot model =
+hubspotRequest : Model -> Http.Request ()
+hubspotRequest model =
     Http.request
         { method = "POST"
         , headers = []
@@ -329,7 +329,8 @@ viewResults model =
 viewForm : Model -> Html Msg
 viewForm model =
     form [ onSubmit <| validateForm model.workEmail ] <|
-        [ input [ placeholder "Work Email", onInput WorkEmail ] [] ]
+        viewError model.error
+            ++ [ input [ placeholder "Work Email", onInput WorkEmail ] [] ]
             ++ [ input [ placeholder "Name", onInput Name ] [] ]
             ++ [ select [ onInput ExpectedChecksPerYear ] <| viewDropdown ]
             ++ [ button [] [ text "Submit" ] ]
@@ -345,19 +346,32 @@ validateForm email =
         Submit
 
 
+
+-- TODO Filter only works when email only domain is shown
+
+
 onBlacklist : String -> Bool
 onBlacklist email =
-    case List.filter (String.contains email) blacklistedEmails of
-        [] ->
-            False
-
-        _ ->
-            True
-
+    List.map (\x -> String.contains x email) blacklistedEmails |> List.any isTrue
 
 blacklistedEmails : List String
 blacklistedEmails =
     [ "outlook.com", "gmail.com", "yahoo.com", "inbox.com", "@me.com", "mail.com", "aol.com", "zoho.com", "yandex.com", "hotmail.com" ]
+
+
+isTrue : Bool -> Bool
+isTrue bool =
+    bool == True
+
+
+viewError : Maybe String -> List (Html Msg)
+viewError error =
+    case error of
+        Just message ->
+            [ p [] [ text message ] ]
+
+        Nothing ->
+            []
 
 
 viewDropdown : List (Html Msg)
