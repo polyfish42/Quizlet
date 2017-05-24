@@ -1,4 +1,4 @@
-port module Main exposing (..)
+port module Quizlet exposing (..)
 
 import Html exposing (..)
 import Html.Events exposing (..)
@@ -113,7 +113,7 @@ update msg model =
 
         AnsweredCorrect ->
             ( { model
-                | score = totalScore model
+                | score = totalScore model.score
                 , screens = List.drop 1 model.screens
               }
             , Cmd.none
@@ -129,9 +129,9 @@ update msg model =
             ( { model | workEmail = str }, Cmd.none )
 
 
-totalScore : Model -> Int
-totalScore model =
-    model.score + (100 // List.length questions)
+totalScore : Int -> Int
+totalScore score =
+    score + (100 // List.length questions)
 
 
 
