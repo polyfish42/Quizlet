@@ -17,7 +17,7 @@ all =
                         num
                 in
                     Expect.equal (totalScore score) (num + 20)
-        , test "Validate that it's a work email" <|
+        , test "Validate ones are a blacklisted email" <|
             \() ->
                 [ "test@outlook.com", "gmail@gmail.com", "yahoo.com", "inbox.com", "@me.com", "mail.net", "aol.com", "hotmail.com" ]
                     |> List.map onBlacklist

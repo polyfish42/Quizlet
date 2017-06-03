@@ -3,7 +3,9 @@ port module Quizlet exposing (..)
 import Html exposing (..)
 import Html.Events exposing (..)
 import Html.Attributes exposing (value, disabled, selected, action, placeholder)
+import Html.CssHelpers exposing (withNamespace)
 import Http
+import QuizletCss exposing (..)
 import Json.Decode
 import Json.Encode as E
 import Task
@@ -12,7 +14,7 @@ import Window
 
 main : Program Never Model Msg
 main =
-    Html.program { init = init, update = update, subscriptions = \_ -> Sub.none, view = view }
+    Html.program { init = init, update = update, subscriptions = subscriptions, view = view }
 
 
 
@@ -255,20 +257,26 @@ subscriptions model =
 -- VIEW
 
 
+{ id, class, classList } =
+    withNamespace "quizlet"
+
+
 view : Model -> Html Msg
 view model =
-    case currentScreen model.screens of
-        Intro ->
-            viewIntro
+    body [ ]
+        [ case currentScreen model.screens of
+            Intro ->
+                viewIntro
 
-        Question ( question, choices ) ->
-            viewQuestion question choices
+            Question ( question, choices ) ->
+                viewQuestion question choices
 
-        Results ->
-            viewResults model
+            Results ->
+                viewResults model
 
-        End ->
-            viewEnd
+            End ->
+                viewEnd
+        ]
 
 
 currentScreen : List Screen -> Screen
@@ -288,7 +296,7 @@ currentScreen screenList =
 viewIntro : Html Msg
 viewIntro =
     div []
-        [ p [] [ text "Think you know the rules? Find out now!" ]
+        [ p [ id TextStyle ] [ text "Think you know the rules? Find out now!" ]
         , button [ onClick NextScreen ] [ text "GET STARTED" ]
         ]
 
@@ -346,13 +354,10 @@ validateForm email =
         Submit
 
 
-
--- TODO Filter only works when email only domain is shown
-
-
 onBlacklist : String -> Bool
 onBlacklist email =
     List.map (\x -> String.contains x email) blacklistedEmails |> List.any isTrue
+
 
 blacklistedEmails : List String
 blacklistedEmails =
