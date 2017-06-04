@@ -75,7 +75,7 @@ init =
       , quizSize = 1
       , ipAddress = ""
       }
-    , Cmd.batch [ (getCookie "hubspotutk"), (Task.perform Resize Window.width) ]
+    , Cmd.batch [ (getCookie "hubspotutk"), (Task.perform Resize Window.width), getIpAddress ]
     )
 
 
