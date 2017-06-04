@@ -2,7 +2,7 @@ port module Quizlet exposing (..)
 
 import Html exposing (..)
 import Html.Events exposing (..)
-import Html.Attributes exposing (value, disabled, selected, action, placeholder, attribute)
+import Html.Attributes exposing (style, value, disabled, selected, action, placeholder, attribute)
 import Html.CssHelpers exposing (withNamespace)
 import Http
 import QuizletCss exposing (..)
@@ -72,7 +72,7 @@ init =
       , workEmail = ""
       , error = Nothing
       , cookie = ""
-      , quizSize = 700.0
+      , quizSize = 1
       , ipAddress = ""
       }
     , Cmd.batch [ (getCookie "hubspotutk"), (Task.perform Resize Window.width) ]
@@ -280,7 +280,10 @@ subscriptions model =
 
 view : Model -> Html Msg
 view model =
-    div [ id Main ]
+    div
+        [ id Main
+        , style [ ( "transform", quizSize model ), ("transformOrigin", "0px 0px 0px") ]
+        ]
         [ stylesheet
         , case currentScreen model.screens of
             Intro ->
@@ -295,6 +298,11 @@ view model =
             End ->
                 viewEnd
         ]
+
+
+quizSize : Model -> String
+quizSize model =
+    "scale(" ++ toString model.quizSize ++")"
 
 
 currentScreen : List Screen -> Screen

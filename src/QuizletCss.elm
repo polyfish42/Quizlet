@@ -17,12 +17,22 @@ type CssIds
     | SubmitButton
 
 
+zeroOut =
+    (stylesheet)
+        [ body
+            [ margin zero
+            , padding zero
+            , border zero
+            ]
+        ]
+
+
 css =
     (stylesheet << namespace "quizlet")
         [ id Main
             [ width (px 700)
             , height (px 400)
-            , margin2 (px 0) (auto)
+            , margin zero
             , backgroundImage (url "https://www.goodhire.com/hubfs/Q2_DG_ComplianceQuiz_Background.jpeg")
             , position relative
             ]

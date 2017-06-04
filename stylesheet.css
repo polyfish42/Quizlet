@@ -1,7 +1,7 @@
 #Main {
     width: 700px;
     height: 400px;
-    margin: 0px auto;
+    margin: 0;
     background-image: url(https://www.goodhire.com/hubfs/Q2_DG_ComplianceQuiz_Background.jpeg);
     position: relative;
 }
@@ -99,4 +99,10 @@ select {
     appearance: none;
     padding: 10px;
     transform: translate(15px, -35px);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    border: 0;
 }

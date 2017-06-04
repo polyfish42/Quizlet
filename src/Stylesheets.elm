@@ -10,7 +10,7 @@ port files : CssFileStructure -> Cmd msg
 fileStructure : CssFileStructure
 fileStructure =
     Css.File.toFileStructure
-        [ ( "stylesheet.css", Css.File.compile [ QuizletCss.css ] ) ]
+        [ ( "stylesheet.css", Css.File.compile [ QuizletCss.css, QuizletCss.zeroOut ] ) ]
 
 
 main : CssCompilerProgram

@@ -14837,6 +14837,25 @@ var _user$project$QuizletCss$appearance = function (value) {
 var _user$project$QuizletCss$visibility = function (value) {
 	return A2(_rtfeldman$elm_css$Css$property, 'visibility', value);
 };
+var _user$project$QuizletCss$zeroOut = _rtfeldman$elm_css$Css$stylesheet(
+	{
+		ctor: '::',
+		_0: _rtfeldman$elm_css$Css_Elements$body(
+			{
+				ctor: '::',
+				_0: _rtfeldman$elm_css$Css$margin(_rtfeldman$elm_css$Css$zero),
+				_1: {
+					ctor: '::',
+					_0: _rtfeldman$elm_css$Css$padding(_rtfeldman$elm_css$Css$zero),
+					_1: {
+						ctor: '::',
+						_0: _rtfeldman$elm_css$Css$border(_rtfeldman$elm_css$Css$zero),
+						_1: {ctor: '[]'}
+					}
+				}
+			}),
+		_1: {ctor: '[]'}
+	});
 var _user$project$QuizletCss$ErrorMessage = {ctor: 'ErrorMessage'};
 var _user$project$QuizletCss$Slide = {ctor: 'Slide'};
 var _user$project$QuizletCss$SubmitButton = {ctor: 'SubmitButton'};
@@ -14862,10 +14881,7 @@ var _user$project$QuizletCss$css = function (_p0) {
 						_rtfeldman$elm_css$Css$px(400)),
 					_1: {
 						ctor: '::',
-						_0: A2(
-							_rtfeldman$elm_css$Css$margin2,
-							_rtfeldman$elm_css$Css$px(0),
-							_rtfeldman$elm_css$Css$auto),
+						_0: _rtfeldman$elm_css$Css$margin(_rtfeldman$elm_css$Css$zero),
 						_1: {
 							ctor: '::',
 							_0: _rtfeldman$elm_css$Css$backgroundImage(
@@ -15372,6 +15388,15 @@ var _user$project$Quizlet$onBlacklist = function (email) {
 				return A2(_elm_lang$core$String$contains, x, email);
 			},
 			_user$project$Quizlet$blacklistedEmails));
+};
+var _user$project$Quizlet$quizSize = function (model) {
+	return A2(
+		_elm_lang$core$Basics_ops['++'],
+		'scale(',
+		A2(
+			_elm_lang$core$Basics_ops['++'],
+			_elm_lang$core$Basics$toString(model.quizSize),
+			')'));
 };
 var _user$project$Quizlet$_p0 = _rtfeldman$elm_css_helpers$Html_CssHelpers$withNamespace('quizlet');
 var _user$project$Quizlet$id = _user$project$Quizlet$_p0.id;
@@ -16106,7 +16131,24 @@ var _user$project$Quizlet$view = function (model) {
 		{
 			ctor: '::',
 			_0: _user$project$Quizlet$id(_user$project$QuizletCss$Main),
-			_1: {ctor: '[]'}
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$style(
+					{
+						ctor: '::',
+						_0: {
+							ctor: '_Tuple2',
+							_0: 'transform',
+							_1: _user$project$Quizlet$quizSize(model)
+						},
+						_1: {
+							ctor: '::',
+							_0: {ctor: '_Tuple2', _0: 'transformOrigin', _1: '0px 0px 0px'},
+							_1: {ctor: '[]'}
+						}
+					}),
+				_1: {ctor: '[]'}
+			}
 		},
 		{
 			ctor: '::',
@@ -16171,7 +16213,7 @@ var _user$project$Quizlet$init = {
 		workEmail: '',
 		error: _elm_lang$core$Maybe$Nothing,
 		cookie: '',
-		quizSize: 700.0,
+		quizSize: 1,
 		ipAddress: ''
 	},
 	_1: _elm_lang$core$Platform_Cmd$batch(
