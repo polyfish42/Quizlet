@@ -175,12 +175,12 @@ update msg model =
             ( model, Cmd.none )
 
         NextScreen ->
-            ( { model | screens = List.drop 1 model.screens }, Cmd.none )
+            ( { model | screens = advanceOneScreen model.screens }, Cmd.none )
 
         AnsweredCorrect ->
             ( { model
                 | score = totalScore model.score
-                , screens = List.drop 1 model.screens
+                , screens = advanceOneScreen model.screens
               }
             , Cmd.none
             )
@@ -200,12 +200,14 @@ update msg model =
         Submit ->
             ( model, submitForm model )
 
-        HubspotResponse (Ok str) ->
-            ( { model | screens = List.drop 1 model.screens }, Cmd.none )
+        {- Hubspot returns successful Posts as 302 redirects, and I haven't figured out how
+        to handle them because they result in an error not listed in Http.Error -}
+        HubspotResponse _ ->
+            ( { model | screens = advanceOneScreen model.screens }, Cmd.none )
 
-        HubspotResponse (Err _) ->
-            ( { model | error = Just "There's been an error, please try again later." }, Cmd.none )
-
+advanceOneScreen : List Screen -> List Screen
+advanceOneScreen screens =
+  List.drop 1 screens
 
 totalScore : Int -> Int
 totalScore score =
@@ -282,7 +284,7 @@ view : Model -> Html Msg
 view model =
     div
         [ id Main
-        , style [ ( "transform", quizSize model ), ("transformOrigin", "0px 0px 0px") ]
+        , style [ ( "transform", quizSize model ), ( "transformOrigin", "0px 0px 0px" ) ]
         ]
         [ stylesheet
         , case currentScreen model.screens of
@@ -302,7 +304,7 @@ view model =
 
 quizSize : Model -> String
 quizSize model =
-    "scale(" ++ toString model.quizSize ++")"
+    "scale(" ++ toString model.quizSize ++ ")"
 
 
 currentScreen : List Screen -> Screen

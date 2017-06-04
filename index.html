@@ -17,7 +17,6 @@
       var b = document.cookie.match('(^|;)\\s*' + a + '\\s*=\\s*([^;]+)');
       return b ? b.pop() : '';
     }
-
     app.ports.getCookie.subscribe(function(name) {
       var cookie = getCookieValue(name);
       app.ports.hubspotCookie.send(cookie);

@@ -15658,6 +15658,9 @@ var _user$project$Quizlet$hubspotRequest = function (model) {
 			withCredentials: false
 		});
 };
+var _user$project$Quizlet$advanceOneScreen = function (screens) {
+	return A2(_elm_lang$core$List$drop, 1, screens);
+};
 var _user$project$Quizlet$stylesheet = function () {
 	var children = {ctor: '[]'};
 	var attrs = {
@@ -15872,7 +15875,7 @@ var _user$project$Quizlet$update = F2(
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{
-							screens: A2(_elm_lang$core$List$drop, 1, model.screens)
+							screens: _user$project$Quizlet$advanceOneScreen(model.screens)
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
@@ -15883,7 +15886,7 @@ var _user$project$Quizlet$update = F2(
 						model,
 						{
 							score: _user$project$Quizlet$totalScore(model.score),
-							screens: A2(_elm_lang$core$List$drop, 1, model.screens)
+							screens: _user$project$Quizlet$advanceOneScreen(model.screens)
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
@@ -15928,27 +15931,15 @@ var _user$project$Quizlet$update = F2(
 					_1: _user$project$Quizlet$submitForm(model)
 				};
 			default:
-				if (_p4._0.ctor === 'Ok') {
-					return {
-						ctor: '_Tuple2',
-						_0: _elm_lang$core$Native_Utils.update(
-							model,
-							{
-								screens: A2(_elm_lang$core$List$drop, 1, model.screens)
-							}),
-						_1: _elm_lang$core$Platform_Cmd$none
-					};
-				} else {
-					return {
-						ctor: '_Tuple2',
-						_0: _elm_lang$core$Native_Utils.update(
-							model,
-							{
-								error: _elm_lang$core$Maybe$Just('There\'s been an error, please try again later.')
-							}),
-						_1: _elm_lang$core$Platform_Cmd$none
-					};
-				}
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							screens: _user$project$Quizlet$advanceOneScreen(model.screens)
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
 		}
 	});
 var _user$project$Quizlet$Submit = {ctor: 'Submit'};
