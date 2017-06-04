@@ -16,6 +16,10 @@ p {
     text-align: center;
     padding: 30px 10px 0px 10px;
     width: 680px;
+    position: absolute;
+}
+
+.quizletSlide {
     height: 115px;
 }
 
@@ -29,6 +33,7 @@ button {
     width: 320px;
     height: 70px;
     cursor: pointer;
+    transform: translate(0, 45px);
 }
 
 button:focus {
@@ -36,29 +41,28 @@ button:focus {
 }
 
 #StartButton {
-    transform: translate(190px, 45px);
+    transform: translate(190px, 200px);
 }
 
 .quizletchoice1 {
-    transform: translate(20px, 45px);
+    transform: translate(25px, 225px);
 }
 
 .quizletchoice2 {
-    transform: translate(360px, 45px);
+    transform: translate(355px, 225px);
 }
 
 .quizletchoice3 {
-    transform: translate(20px, 135px);
+    transform: translate(25px, 305px);
 }
 
 .quizletchoice4 {
-    transform: translate(360px, 135px);
+    transform: translate(355px, 305px);
 }
 
 #SubmitButton {
-    margin: 0 auto;
-    display: block;
-    position: relative;
+    position: absolute;
+    transform: translate(165px, 205px);
 }
 
 input {
@@ -72,7 +76,7 @@ input {
     background-color: #ffffff;
     border: 1px solid #ccc;
     border-radius: 4px;
-    transform: translate(15px, -50px);
+    transform: translate(15px, 180px);
 }
 
 .quizletErrorMessage {
@@ -81,7 +85,7 @@ input {
     width: 670px;
     height: 30px;
     margin: 0 0 0 15px;
-    transform: translate(0, -50px);
+    transform: translate(0, 150px);
     padding: 0;
     visibility: hidden;
 }
@@ -98,11 +102,14 @@ select {
     -webkit-appearance: none;
     appearance: none;
     padding: 10px;
-    transform: translate(15px, -35px);
+    transform: translate(15px, 190px);
 }
 
-body {
+html, body, div, span, h1, h2, h3, h4, h5, h6, blockquote, pre, a {
     margin: 0;
     padding: 0;
     border: 0;
+    outline: 0;
+    font-size: 100%;
+    vertical-align: baseline;
 }

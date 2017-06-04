@@ -19,10 +19,13 @@ type CssIds
 
 zeroOut =
     (stylesheet)
-        [ body
+        [ each [ html, body, div, span, h1, h2, h3, h4, h5, h6, blockquote, pre, a ]
             [ margin zero
             , padding zero
             , border zero
+            , outline zero
+            , fontSize (pct 100)
+            , verticalAlign baseline
             ]
         ]
 
@@ -45,8 +48,10 @@ css =
             , textAlign center
             , padding4 (px 30) (px 10) (px 0) (px 10)
             , width (px 680)
-            , height (px 115)
+            , position absolute
             ]
+        , class Slide
+            [ height (px 115)]
         , button
             [ position absolute
             , fontSize (px 24)
@@ -58,21 +63,21 @@ css =
             , height (px 70)
             , cursor pointer
             , focus [ outline zero ]
+            , transform (translate2 zero (px 45))
             ]
         , id StartButton
-            [ transform (translate2 (px 190) (px 45)) ]
+            [ transform (translate2 (px 190) (px 200)) ]
         , class "choice1"
-            [ transform (translate2 (px 20) (px 45)) ]
+            [ transform (translate2 (px 25) (px 225)) ]
         , class "choice2"
-            [ transform (translate2 (px 360) (px 45)) ]
+            [ transform (translate2 (px 355) (px 225)) ]
         , class "choice3"
-            [ transform (translate2 (px 20) (px 135)) ]
+            [ transform (translate2 (px 25) (px 305)) ]
         , class "choice4"
-            [ transform (translate2 (px 360) (px 135)) ]
+            [ transform (translate2 (px 355) (px 305)) ]
         , id SubmitButton
-            [ margin2 zero auto
-            , display block
-            , position relative
+            [ position absolute
+            , transform (translate2 (px 165) (px 205))
             ]
         , input
             [ display inlineBlock
@@ -85,7 +90,7 @@ css =
             , backgroundColor (hex "#ffffff")
             , border3 (px 1) solid (hex "#ccc")
             , borderRadius (px 4)
-            , transform (translate2 (px 15) (px -50))
+            , transform (translate2 (px 15) (px 180))
             ]
         , class ErrorMessage
             [ fontSize (px 17)
@@ -93,7 +98,7 @@ css =
             , width (px 670)
             , height (px 30)
             , margin4 zero zero zero (px 15)
-            , transform (translate2 zero (px -50))
+            , transform (translate2 zero (px 150))
             , padding zero
             , visibility "hidden"
             ]
@@ -106,7 +111,7 @@ css =
             , fontSize (px 17)
             , appearance "none"
             , padding (px 10)
-            , transform (translate2 (px 15) (px -35))
+            , transform (translate2 (px 15) (px 190))
             ]
         ]
 

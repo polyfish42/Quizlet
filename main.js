@@ -14840,7 +14840,61 @@ var _user$project$QuizletCss$visibility = function (value) {
 var _user$project$QuizletCss$zeroOut = _rtfeldman$elm_css$Css$stylesheet(
 	{
 		ctor: '::',
-		_0: _rtfeldman$elm_css$Css_Elements$body(
+		_0: A2(
+			_rtfeldman$elm_css$Css$each,
+			{
+				ctor: '::',
+				_0: _rtfeldman$elm_css$Css_Elements$html,
+				_1: {
+					ctor: '::',
+					_0: _rtfeldman$elm_css$Css_Elements$body,
+					_1: {
+						ctor: '::',
+						_0: _rtfeldman$elm_css$Css_Elements$div,
+						_1: {
+							ctor: '::',
+							_0: _rtfeldman$elm_css$Css_Elements$span,
+							_1: {
+								ctor: '::',
+								_0: _rtfeldman$elm_css$Css_Elements$h1,
+								_1: {
+									ctor: '::',
+									_0: _rtfeldman$elm_css$Css_Elements$h2,
+									_1: {
+										ctor: '::',
+										_0: _rtfeldman$elm_css$Css_Elements$h3,
+										_1: {
+											ctor: '::',
+											_0: _rtfeldman$elm_css$Css_Elements$h4,
+											_1: {
+												ctor: '::',
+												_0: _rtfeldman$elm_css$Css_Elements$h5,
+												_1: {
+													ctor: '::',
+													_0: _rtfeldman$elm_css$Css_Elements$h6,
+													_1: {
+														ctor: '::',
+														_0: _rtfeldman$elm_css$Css_Elements$blockquote,
+														_1: {
+															ctor: '::',
+															_0: _rtfeldman$elm_css$Css_Elements$pre,
+															_1: {
+																ctor: '::',
+																_0: _rtfeldman$elm_css$Css_Elements$a,
+																_1: {ctor: '[]'}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			},
 			{
 				ctor: '::',
 				_0: _rtfeldman$elm_css$Css$margin(_rtfeldman$elm_css$Css$zero),
@@ -14850,7 +14904,20 @@ var _user$project$QuizletCss$zeroOut = _rtfeldman$elm_css$Css$stylesheet(
 					_1: {
 						ctor: '::',
 						_0: _rtfeldman$elm_css$Css$border(_rtfeldman$elm_css$Css$zero),
-						_1: {ctor: '[]'}
+						_1: {
+							ctor: '::',
+							_0: _rtfeldman$elm_css$Css$outline(_rtfeldman$elm_css$Css$zero),
+							_1: {
+								ctor: '::',
+								_0: _rtfeldman$elm_css$Css$fontSize(
+									_rtfeldman$elm_css$Css$pct(100)),
+								_1: {
+									ctor: '::',
+									_0: _rtfeldman$elm_css$Css$verticalAlign(_rtfeldman$elm_css$Css$baseline),
+									_1: {ctor: '[]'}
+								}
+							}
+						}
 					}
 				}
 			}),
@@ -14937,8 +15004,7 @@ var _user$project$QuizletCss$css = function (_p0) {
 										_rtfeldman$elm_css$Css$px(680)),
 									_1: {
 										ctor: '::',
-										_0: _rtfeldman$elm_css$Css$height(
-											_rtfeldman$elm_css$Css$px(115)),
+										_0: _rtfeldman$elm_css$Css$position(_rtfeldman$elm_css$Css$absolute),
 										_1: {ctor: '[]'}
 									}
 								}
@@ -14947,53 +15013,73 @@ var _user$project$QuizletCss$css = function (_p0) {
 					}),
 				_1: {
 					ctor: '::',
-					_0: _rtfeldman$elm_css$Css_Elements$button(
+					_0: A2(
+						_rtfeldman$elm_css$Css$class,
+						_user$project$QuizletCss$Slide,
 						{
 							ctor: '::',
-							_0: _rtfeldman$elm_css$Css$position(_rtfeldman$elm_css$Css$absolute),
-							_1: {
+							_0: _rtfeldman$elm_css$Css$height(
+								_rtfeldman$elm_css$Css$px(115)),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: _rtfeldman$elm_css$Css_Elements$button(
+							{
 								ctor: '::',
-								_0: _rtfeldman$elm_css$Css$fontSize(
-									_rtfeldman$elm_css$Css$px(24)),
+								_0: _rtfeldman$elm_css$Css$position(_rtfeldman$elm_css$Css$absolute),
 								_1: {
 									ctor: '::',
-									_0: _rtfeldman$elm_css$Css$color(
-										A3(_rtfeldman$elm_css$Css$rgb, 255, 255, 255)),
+									_0: _rtfeldman$elm_css$Css$fontSize(
+										_rtfeldman$elm_css$Css$px(24)),
 									_1: {
 										ctor: '::',
-										_0: _rtfeldman$elm_css$Css$backgroundColor(
-											A3(_rtfeldman$elm_css$Css$rgb, 130, 193, 73)),
+										_0: _rtfeldman$elm_css$Css$color(
+											A3(_rtfeldman$elm_css$Css$rgb, 255, 255, 255)),
 										_1: {
 											ctor: '::',
-											_0: A3(
-												_rtfeldman$elm_css$Css$border3,
-												_rtfeldman$elm_css$Css$px(1),
-												_rtfeldman$elm_css$Css$solid,
-												A3(_rtfeldman$elm_css$Css$rgb, 255, 255, 255)),
+											_0: _rtfeldman$elm_css$Css$backgroundColor(
+												A3(_rtfeldman$elm_css$Css$rgb, 130, 193, 73)),
 											_1: {
 												ctor: '::',
-												_0: _rtfeldman$elm_css$Css$borderRadius(
-													_rtfeldman$elm_css$Css$px(5)),
+												_0: A3(
+													_rtfeldman$elm_css$Css$border3,
+													_rtfeldman$elm_css$Css$px(1),
+													_rtfeldman$elm_css$Css$solid,
+													A3(_rtfeldman$elm_css$Css$rgb, 255, 255, 255)),
 												_1: {
 													ctor: '::',
-													_0: _rtfeldman$elm_css$Css$width(
-														_rtfeldman$elm_css$Css$px(320)),
+													_0: _rtfeldman$elm_css$Css$borderRadius(
+														_rtfeldman$elm_css$Css$px(5)),
 													_1: {
 														ctor: '::',
-														_0: _rtfeldman$elm_css$Css$height(
-															_rtfeldman$elm_css$Css$px(70)),
+														_0: _rtfeldman$elm_css$Css$width(
+															_rtfeldman$elm_css$Css$px(320)),
 														_1: {
 															ctor: '::',
-															_0: _rtfeldman$elm_css$Css$cursor(_rtfeldman$elm_css$Css$pointer),
+															_0: _rtfeldman$elm_css$Css$height(
+																_rtfeldman$elm_css$Css$px(70)),
 															_1: {
 																ctor: '::',
-																_0: _rtfeldman$elm_css$Css$focus(
-																	{
+																_0: _rtfeldman$elm_css$Css$cursor(_rtfeldman$elm_css$Css$pointer),
+																_1: {
+																	ctor: '::',
+																	_0: _rtfeldman$elm_css$Css$focus(
+																		{
+																			ctor: '::',
+																			_0: _rtfeldman$elm_css$Css$outline(_rtfeldman$elm_css$Css$zero),
+																			_1: {ctor: '[]'}
+																		}),
+																	_1: {
 																		ctor: '::',
-																		_0: _rtfeldman$elm_css$Css$outline(_rtfeldman$elm_css$Css$zero),
+																		_0: _rtfeldman$elm_css$Css$transform(
+																			A2(
+																				_rtfeldman$elm_css$Css$translate2,
+																				_rtfeldman$elm_css$Css$zero,
+																				_rtfeldman$elm_css$Css$px(45))),
 																		_1: {ctor: '[]'}
-																	}),
-																_1: {ctor: '[]'}
+																	}
+																}
 															}
 														}
 													}
@@ -15002,204 +15088,153 @@ var _user$project$QuizletCss$css = function (_p0) {
 										}
 									}
 								}
-							}
-						}),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_rtfeldman$elm_css$Css$id,
-							_user$project$QuizletCss$StartButton,
-							{
-								ctor: '::',
-								_0: _rtfeldman$elm_css$Css$transform(
-									A2(
-										_rtfeldman$elm_css$Css$translate2,
-										_rtfeldman$elm_css$Css$px(190),
-										_rtfeldman$elm_css$Css$px(45))),
-								_1: {ctor: '[]'}
 							}),
 						_1: {
 							ctor: '::',
 							_0: A2(
-								_rtfeldman$elm_css$Css$class,
-								'choice1',
+								_rtfeldman$elm_css$Css$id,
+								_user$project$QuizletCss$StartButton,
 								{
 									ctor: '::',
 									_0: _rtfeldman$elm_css$Css$transform(
 										A2(
 											_rtfeldman$elm_css$Css$translate2,
-											_rtfeldman$elm_css$Css$px(20),
-											_rtfeldman$elm_css$Css$px(45))),
+											_rtfeldman$elm_css$Css$px(190),
+											_rtfeldman$elm_css$Css$px(200))),
 									_1: {ctor: '[]'}
 								}),
 							_1: {
 								ctor: '::',
 								_0: A2(
 									_rtfeldman$elm_css$Css$class,
-									'choice2',
+									'choice1',
 									{
 										ctor: '::',
 										_0: _rtfeldman$elm_css$Css$transform(
 											A2(
 												_rtfeldman$elm_css$Css$translate2,
-												_rtfeldman$elm_css$Css$px(360),
-												_rtfeldman$elm_css$Css$px(45))),
+												_rtfeldman$elm_css$Css$px(25),
+												_rtfeldman$elm_css$Css$px(225))),
 										_1: {ctor: '[]'}
 									}),
 								_1: {
 									ctor: '::',
 									_0: A2(
 										_rtfeldman$elm_css$Css$class,
-										'choice3',
+										'choice2',
 										{
 											ctor: '::',
 											_0: _rtfeldman$elm_css$Css$transform(
 												A2(
 													_rtfeldman$elm_css$Css$translate2,
-													_rtfeldman$elm_css$Css$px(20),
-													_rtfeldman$elm_css$Css$px(135))),
+													_rtfeldman$elm_css$Css$px(355),
+													_rtfeldman$elm_css$Css$px(225))),
 											_1: {ctor: '[]'}
 										}),
 									_1: {
 										ctor: '::',
 										_0: A2(
 											_rtfeldman$elm_css$Css$class,
-											'choice4',
+											'choice3',
 											{
 												ctor: '::',
 												_0: _rtfeldman$elm_css$Css$transform(
 													A2(
 														_rtfeldman$elm_css$Css$translate2,
-														_rtfeldman$elm_css$Css$px(360),
-														_rtfeldman$elm_css$Css$px(135))),
+														_rtfeldman$elm_css$Css$px(25),
+														_rtfeldman$elm_css$Css$px(305))),
 												_1: {ctor: '[]'}
 											}),
 										_1: {
 											ctor: '::',
 											_0: A2(
-												_rtfeldman$elm_css$Css$id,
-												_user$project$QuizletCss$SubmitButton,
+												_rtfeldman$elm_css$Css$class,
+												'choice4',
 												{
 													ctor: '::',
-													_0: A2(_rtfeldman$elm_css$Css$margin2, _rtfeldman$elm_css$Css$zero, _rtfeldman$elm_css$Css$auto),
-													_1: {
-														ctor: '::',
-														_0: _rtfeldman$elm_css$Css$display(_rtfeldman$elm_css$Css$block),
-														_1: {
-															ctor: '::',
-															_0: _rtfeldman$elm_css$Css$position(_rtfeldman$elm_css$Css$relative),
-															_1: {ctor: '[]'}
-														}
-													}
+													_0: _rtfeldman$elm_css$Css$transform(
+														A2(
+															_rtfeldman$elm_css$Css$translate2,
+															_rtfeldman$elm_css$Css$px(355),
+															_rtfeldman$elm_css$Css$px(305))),
+													_1: {ctor: '[]'}
 												}),
 											_1: {
 												ctor: '::',
-												_0: _rtfeldman$elm_css$Css_Elements$input(
+												_0: A2(
+													_rtfeldman$elm_css$Css$id,
+													_user$project$QuizletCss$SubmitButton,
 													{
 														ctor: '::',
-														_0: _rtfeldman$elm_css$Css$display(_rtfeldman$elm_css$Css$inlineBlock),
+														_0: _rtfeldman$elm_css$Css$position(_rtfeldman$elm_css$Css$absolute),
 														_1: {
 															ctor: '::',
-															_0: _rtfeldman$elm_css$Css$width(
-																_rtfeldman$elm_css$Css$px(300)),
-															_1: {
-																ctor: '::',
-																_0: _rtfeldman$elm_css$Css$height(
-																	_rtfeldman$elm_css$Css$px(34)),
-																_1: {
-																	ctor: '::',
-																	_0: _rtfeldman$elm_css$Css$marginRight(
-																		_rtfeldman$elm_css$Css$px(15)),
-																	_1: {
-																		ctor: '::',
-																		_0: A2(
-																			_rtfeldman$elm_css$Css$padding2,
-																			_rtfeldman$elm_css$Css$px(6),
-																			_rtfeldman$elm_css$Css$px(12)),
-																		_1: {
-																			ctor: '::',
-																			_0: _rtfeldman$elm_css$Css$fontSize(
-																				_rtfeldman$elm_css$Css$px(14)),
-																			_1: {
-																				ctor: '::',
-																				_0: _rtfeldman$elm_css$Css$color(
-																					_rtfeldman$elm_css$Css$hex('#555')),
-																				_1: {
-																					ctor: '::',
-																					_0: _rtfeldman$elm_css$Css$backgroundColor(
-																						_rtfeldman$elm_css$Css$hex('#ffffff')),
-																					_1: {
-																						ctor: '::',
-																						_0: A3(
-																							_rtfeldman$elm_css$Css$border3,
-																							_rtfeldman$elm_css$Css$px(1),
-																							_rtfeldman$elm_css$Css$solid,
-																							_rtfeldman$elm_css$Css$hex('#ccc')),
-																						_1: {
-																							ctor: '::',
-																							_0: _rtfeldman$elm_css$Css$borderRadius(
-																								_rtfeldman$elm_css$Css$px(4)),
-																							_1: {
-																								ctor: '::',
-																								_0: _rtfeldman$elm_css$Css$transform(
-																									A2(
-																										_rtfeldman$elm_css$Css$translate2,
-																										_rtfeldman$elm_css$Css$px(15),
-																										_rtfeldman$elm_css$Css$px(-50))),
-																								_1: {ctor: '[]'}
-																							}
-																						}
-																					}
-																				}
-																			}
-																		}
-																	}
-																}
-															}
+															_0: _rtfeldman$elm_css$Css$transform(
+																A2(
+																	_rtfeldman$elm_css$Css$translate2,
+																	_rtfeldman$elm_css$Css$px(165),
+																	_rtfeldman$elm_css$Css$px(205))),
+															_1: {ctor: '[]'}
 														}
 													}),
 												_1: {
 													ctor: '::',
-													_0: A2(
-														_rtfeldman$elm_css$Css$class,
-														_user$project$QuizletCss$ErrorMessage,
+													_0: _rtfeldman$elm_css$Css_Elements$input(
 														{
 															ctor: '::',
-															_0: _rtfeldman$elm_css$Css$fontSize(
-																_rtfeldman$elm_css$Css$px(17)),
+															_0: _rtfeldman$elm_css$Css$display(_rtfeldman$elm_css$Css$inlineBlock),
 															_1: {
 																ctor: '::',
-																_0: _rtfeldman$elm_css$Css$textAlign(_rtfeldman$elm_css$Css$center),
+																_0: _rtfeldman$elm_css$Css$width(
+																	_rtfeldman$elm_css$Css$px(300)),
 																_1: {
 																	ctor: '::',
-																	_0: _rtfeldman$elm_css$Css$width(
-																		_rtfeldman$elm_css$Css$px(670)),
+																	_0: _rtfeldman$elm_css$Css$height(
+																		_rtfeldman$elm_css$Css$px(34)),
 																	_1: {
 																		ctor: '::',
-																		_0: _rtfeldman$elm_css$Css$height(
-																			_rtfeldman$elm_css$Css$px(30)),
+																		_0: _rtfeldman$elm_css$Css$marginRight(
+																			_rtfeldman$elm_css$Css$px(15)),
 																		_1: {
 																			ctor: '::',
-																			_0: A4(
-																				_rtfeldman$elm_css$Css$margin4,
-																				_rtfeldman$elm_css$Css$zero,
-																				_rtfeldman$elm_css$Css$zero,
-																				_rtfeldman$elm_css$Css$zero,
-																				_rtfeldman$elm_css$Css$px(15)),
+																			_0: A2(
+																				_rtfeldman$elm_css$Css$padding2,
+																				_rtfeldman$elm_css$Css$px(6),
+																				_rtfeldman$elm_css$Css$px(12)),
 																			_1: {
 																				ctor: '::',
-																				_0: _rtfeldman$elm_css$Css$transform(
-																					A2(
-																						_rtfeldman$elm_css$Css$translate2,
-																						_rtfeldman$elm_css$Css$zero,
-																						_rtfeldman$elm_css$Css$px(-50))),
+																				_0: _rtfeldman$elm_css$Css$fontSize(
+																					_rtfeldman$elm_css$Css$px(14)),
 																				_1: {
 																					ctor: '::',
-																					_0: _rtfeldman$elm_css$Css$padding(_rtfeldman$elm_css$Css$zero),
+																					_0: _rtfeldman$elm_css$Css$color(
+																						_rtfeldman$elm_css$Css$hex('#555')),
 																					_1: {
 																						ctor: '::',
-																						_0: _user$project$QuizletCss$visibility('hidden'),
-																						_1: {ctor: '[]'}
+																						_0: _rtfeldman$elm_css$Css$backgroundColor(
+																							_rtfeldman$elm_css$Css$hex('#ffffff')),
+																						_1: {
+																							ctor: '::',
+																							_0: A3(
+																								_rtfeldman$elm_css$Css$border3,
+																								_rtfeldman$elm_css$Css$px(1),
+																								_rtfeldman$elm_css$Css$solid,
+																								_rtfeldman$elm_css$Css$hex('#ccc')),
+																							_1: {
+																								ctor: '::',
+																								_0: _rtfeldman$elm_css$Css$borderRadius(
+																									_rtfeldman$elm_css$Css$px(4)),
+																								_1: {
+																									ctor: '::',
+																									_0: _rtfeldman$elm_css$Css$transform(
+																										A2(
+																											_rtfeldman$elm_css$Css$translate2,
+																											_rtfeldman$elm_css$Css$px(15),
+																											_rtfeldman$elm_css$Css$px(180))),
+																									_1: {ctor: '[]'}
+																								}
+																							}
+																						}
 																					}
 																				}
 																			}
@@ -15211,49 +15246,100 @@ var _user$project$QuizletCss$css = function (_p0) {
 													_1: {
 														ctor: '::',
 														_0: A2(
-															_rtfeldman$elm_css$Css$id,
-															_user$project$QuizletCss$ErrorMessageOn,
+															_rtfeldman$elm_css$Css$class,
+															_user$project$QuizletCss$ErrorMessage,
 															{
 																ctor: '::',
-																_0: _rtfeldman$elm_css$Css$backgroundColor(
-																	_rtfeldman$elm_css$Css$hex('#FF4136')),
+																_0: _rtfeldman$elm_css$Css$fontSize(
+																	_rtfeldman$elm_css$Css$px(17)),
 																_1: {
 																	ctor: '::',
-																	_0: _user$project$QuizletCss$visibility('visible'),
-																	_1: {ctor: '[]'}
-																}
-															}),
-														_1: {
-															ctor: '::',
-															_0: _rtfeldman$elm_css$Css_Elements$select(
-																{
-																	ctor: '::',
-																	_0: _rtfeldman$elm_css$Css$display(_rtfeldman$elm_css$Css$block),
+																	_0: _rtfeldman$elm_css$Css$textAlign(_rtfeldman$elm_css$Css$center),
 																	_1: {
 																		ctor: '::',
-																		_0: _rtfeldman$elm_css$Css$fontSize(
-																			_rtfeldman$elm_css$Css$px(17)),
+																		_0: _rtfeldman$elm_css$Css$width(
+																			_rtfeldman$elm_css$Css$px(670)),
 																		_1: {
 																			ctor: '::',
-																			_0: _user$project$QuizletCss$appearance('none'),
+																			_0: _rtfeldman$elm_css$Css$height(
+																				_rtfeldman$elm_css$Css$px(30)),
 																			_1: {
 																				ctor: '::',
-																				_0: _rtfeldman$elm_css$Css$padding(
-																					_rtfeldman$elm_css$Css$px(10)),
+																				_0: A4(
+																					_rtfeldman$elm_css$Css$margin4,
+																					_rtfeldman$elm_css$Css$zero,
+																					_rtfeldman$elm_css$Css$zero,
+																					_rtfeldman$elm_css$Css$zero,
+																					_rtfeldman$elm_css$Css$px(15)),
 																				_1: {
 																					ctor: '::',
 																					_0: _rtfeldman$elm_css$Css$transform(
 																						A2(
 																							_rtfeldman$elm_css$Css$translate2,
-																							_rtfeldman$elm_css$Css$px(15),
-																							_rtfeldman$elm_css$Css$px(-35))),
-																					_1: {ctor: '[]'}
+																							_rtfeldman$elm_css$Css$zero,
+																							_rtfeldman$elm_css$Css$px(150))),
+																					_1: {
+																						ctor: '::',
+																						_0: _rtfeldman$elm_css$Css$padding(_rtfeldman$elm_css$Css$zero),
+																						_1: {
+																							ctor: '::',
+																							_0: _user$project$QuizletCss$visibility('hidden'),
+																							_1: {ctor: '[]'}
+																						}
+																					}
 																				}
 																			}
 																		}
 																	}
+																}
+															}),
+														_1: {
+															ctor: '::',
+															_0: A2(
+																_rtfeldman$elm_css$Css$id,
+																_user$project$QuizletCss$ErrorMessageOn,
+																{
+																	ctor: '::',
+																	_0: _rtfeldman$elm_css$Css$backgroundColor(
+																		_rtfeldman$elm_css$Css$hex('#FF4136')),
+																	_1: {
+																		ctor: '::',
+																		_0: _user$project$QuizletCss$visibility('visible'),
+																		_1: {ctor: '[]'}
+																	}
 																}),
-															_1: {ctor: '[]'}
+															_1: {
+																ctor: '::',
+																_0: _rtfeldman$elm_css$Css_Elements$select(
+																	{
+																		ctor: '::',
+																		_0: _rtfeldman$elm_css$Css$display(_rtfeldman$elm_css$Css$block),
+																		_1: {
+																			ctor: '::',
+																			_0: _rtfeldman$elm_css$Css$fontSize(
+																				_rtfeldman$elm_css$Css$px(17)),
+																			_1: {
+																				ctor: '::',
+																				_0: _user$project$QuizletCss$appearance('none'),
+																				_1: {
+																					ctor: '::',
+																					_0: _rtfeldman$elm_css$Css$padding(
+																						_rtfeldman$elm_css$Css$px(10)),
+																					_1: {
+																						ctor: '::',
+																						_0: _rtfeldman$elm_css$Css$transform(
+																							A2(
+																								_rtfeldman$elm_css$Css$translate2,
+																								_rtfeldman$elm_css$Css$px(15),
+																								_rtfeldman$elm_css$Css$px(190))),
+																						_1: {ctor: '[]'}
+																					}
+																				}
+																			}
+																		}
+																	}),
+																_1: {ctor: '[]'}
+															}
 														}
 													}
 												}
@@ -15525,7 +15611,7 @@ var _user$project$Quizlet$hsContextParam = function (model) {
 var _user$project$Quizlet$url = function (model) {
 	return A2(
 		_elm_lang$core$Basics_ops['++'],
-		'https://forms.hubspot.com/uploads/form/v2/<PORTAL_ID>/<FORM_ID>',
+		'https://forms.hubspot.com/uploads/form/v2/442215/a6a0127e-8124-4b04-b343-bd3fe14b7c84',
 		A2(
 			_elm_lang$core$Basics_ops['++'],
 			'?email=',
