@@ -1,0 +1,102 @@
+#Main {
+    width: 700px;
+    height: 400px;
+    margin: 0px auto;
+    background-image: url(https://www.goodhire.com/hubfs/Q2_DG_ComplianceQuiz_Background.jpeg);
+    position: relative;
+}
+
+div {
+    font-family: Source Sans Pro;
+    color: rgb(255, 255, 255);
+}
+
+p {
+    font-size: 30px;
+    text-align: center;
+    padding: 30px 10px 0px 10px;
+    width: 680px;
+    height: 115px;
+}
+
+button {
+    position: absolute;
+    font-size: 24px;
+    color: rgb(255, 255, 255);
+    background-color: rgb(130, 193, 73);
+    border: 1px solid rgb(255, 255, 255);
+    border-radius: 5px;
+    width: 320px;
+    height: 70px;
+    cursor: pointer;
+}
+
+button:focus {
+    outline: 0;
+}
+
+#StartButton {
+    transform: translate(190px, 45px);
+}
+
+.quizletchoice1 {
+    transform: translate(20px, 45px);
+}
+
+.quizletchoice2 {
+    transform: translate(360px, 45px);
+}
+
+.quizletchoice3 {
+    transform: translate(20px, 135px);
+}
+
+.quizletchoice4 {
+    transform: translate(360px, 135px);
+}
+
+#SubmitButton {
+    margin: 0 auto;
+    display: block;
+    position: relative;
+}
+
+input {
+    display: inline-block;
+    width: 300px;
+    height: 34px;
+    margin-right: 15px;
+    padding: 6px 12px;
+    font-size: 14px;
+    color: #555;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transform: translate(15px, -50px);
+}
+
+.quizletErrorMessage {
+    font-size: 17px;
+    text-align: center;
+    width: 670px;
+    height: 30px;
+    margin: 0 0 0 15px;
+    transform: translate(0, -50px);
+    padding: 0;
+    visibility: hidden;
+}
+
+#ErrorMessageOn {
+    background-color: #FF4136;
+    visibility: visible;
+}
+
+select {
+    display: block;
+    font-size: 17px;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    padding: 10px;
+    transform: translate(15px, -35px);
+}

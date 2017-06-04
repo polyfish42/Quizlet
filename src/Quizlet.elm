@@ -2,7 +2,7 @@ port module Quizlet exposing (..)
 
 import Html exposing (..)
 import Html.Events exposing (..)
-import Html.Attributes exposing (value, disabled, selected, action, placeholder)
+import Html.Attributes exposing (value, disabled, selected, action, placeholder, attribute)
 import Html.CssHelpers exposing (withNamespace)
 import Http
 import QuizletCss exposing (..)
@@ -15,6 +15,23 @@ import Window
 main : Program Never Model Msg
 main =
     Html.program { init = init, update = update, subscriptions = subscriptions, view = view }
+
+
+stylesheet =
+    let
+        tag =
+            "link"
+
+        attrs =
+            [ attribute "rel" "stylesheet"
+            , attribute "property" "stylesheet"
+            , attribute "href" "stylesheet.css"
+            ]
+
+        children =
+            []
+    in
+        node tag attrs children
 
 
 
@@ -263,8 +280,9 @@ subscriptions model =
 
 view : Model -> Html Msg
 view model =
-    body [ ]
-        [ case currentScreen model.screens of
+    div [ id Main ]
+        [ stylesheet
+        , case currentScreen model.screens of
             Intro ->
                 viewIntro
 
@@ -295,9 +313,9 @@ currentScreen screenList =
 
 viewIntro : Html Msg
 viewIntro =
-    div []
-        [ p [ id TextStyle ] [ text "Think you know the rules? Find out now!" ]
-        , button [ onClick NextScreen ] [ text "GET STARTED" ]
+    div [ class [ Slide ] ]
+        [ p [] [ text "Think you know the rules? Find out now!" ]
+        , button [ onClick NextScreen, id StartButton ] [ text "GET STARTED" ]
         ]
 
 
@@ -307,19 +325,19 @@ viewIntro =
 
 viewQuestion : String -> List Choice -> Html Msg
 viewQuestion question choices =
-    div [] <|
+    div [ class [ Slide ] ] <|
         [ p [] [ text question ] ]
-            ++ List.map viewChoice choices
+            ++ List.indexedMap viewChoice choices
 
 
-viewChoice : Choice -> Html Msg
-viewChoice choice =
+viewChoice : Int -> Choice -> Html Msg
+viewChoice index choice =
     case choice of
         Correct str ->
-            button [ onClick AnsweredCorrect ] [ text str ]
+            button [ onClick AnsweredCorrect, class [ "choice" ++ toString (index + 1) ] ] [ text str ]
 
         Wrong str ->
-            button [ onClick NextScreen ] [ text str ]
+            button [ onClick NextScreen, class [ "choice" ++ toString (index + 1) ] ] [ text str ]
 
 
 
@@ -328,7 +346,7 @@ viewChoice choice =
 
 viewResults : Model -> Html Msg
 viewResults model =
-    div []
+    div [ class [ Slide ] ]
         [ p [] [ text <| "You got " ++ toString model.score ++ "% correct. Enter your work email to get the detailed answer guide." ]
         , viewForm model
         ]
@@ -341,7 +359,7 @@ viewForm model =
             ++ [ input [ placeholder "Work Email", onInput WorkEmail ] [] ]
             ++ [ input [ placeholder "Name", onInput Name ] [] ]
             ++ [ select [ onInput ExpectedChecksPerYear ] <| viewDropdown ]
-            ++ [ button [] [ text "Submit" ] ]
+            ++ [ button [ id SubmitButton ] [ text "Submit" ] ]
 
 
 validateForm : String -> Msg
@@ -373,10 +391,10 @@ viewError : Maybe String -> List (Html Msg)
 viewError error =
     case error of
         Just message ->
-            [ p [] [ text message ] ]
+            [ p [ id ErrorMessageOn, class [ ErrorMessage ] ] [ text message ] ]
 
         Nothing ->
-            []
+            [ p [ class [ ErrorMessage ] ] [] ]
 
 
 viewDropdown : List (Html Msg)
@@ -395,7 +413,7 @@ viewDropdown =
             , "Over 2500 per year"
             ]
     in
-        option [ disabled True, selected True ] [ text "- Please Select -" ]
+        option [ disabled True, selected True ] [ text "- How Many Background Checks Will You Run This Year? -" ]
             :: List.map viewOption options
 
 
@@ -405,5 +423,5 @@ viewDropdown =
 
 viewEnd : Html Msg
 viewEnd =
-    div []
+    div [ class [ Slide ] ]
         [ p [] [ text "Thank you! Please check your email to see your answers." ] ]
