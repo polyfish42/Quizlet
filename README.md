@@ -24,7 +24,7 @@ url model =
 ### Compiling for Hubspot
 Cd into the root directory. Then:
 1. `elm-make src/Quizlet.elm --output=main.js`
-2. Host index.html, main.js, and stylesheet.css where ever you like. If you want the quiz on a Hubspot page, you can use an iFrame or [custom module](http://designers.hubspot.com/docs/cos/custom-modules)
+2. Host index.html, main.js, and stylesheet.css where ever you like. If you want the quiz on a Hubspot page, you can use an iFrame or [custom module](http://designers.hubspot.com/docs/cos/custom-modules).
 
 ## Built With
 * [Elm](http://elm-lang.org/)
@@ -32,4 +32,4 @@ Cd into the root directory. Then:
 * [elm-test](https://github.com/elm-community/elm-test)
 
 ## License
-This project is licensed under the Apache License - see the LICENSE.md file for details
+This project is licensed under the Apache License - see the LICENSE.md file for details.
