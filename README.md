@@ -2,7 +2,7 @@
 This is a compliance quiz that I built as a marketing lead generation tool. Right now it's configured to work for my company's needs, but will a little customization anyone can use it.
 
 ## Getting Started
----
+***
 You'll need a few things to get started.
 ### Prerequisites
 ```
@@ -28,11 +28,11 @@ Cd into the root directory. Then:
 2. Host index.html, main.js, and stylesheet.css where ever you like. If you want the quiz on a Hubspot page, you can use an iFrame or [custom module](http://designers.hubspot.com/docs/cos/custom-modules)
 
 ## Built With
----
+***
 * [Elm](http://elm-lang.org/)
 * [elm-css](https://github.com/rtfeldman/elm-css)
 * [elm-test](https://github.com/elm-community/elm-test)
 
 ## License
---
+***
 This project is licensed under the Apache License - see the LICENSE.md file for details
