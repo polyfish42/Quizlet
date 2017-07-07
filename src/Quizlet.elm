@@ -8,13 +8,14 @@ import Http
 import QuizletCss exposing (..)
 import Json.Decode
 import Json.Encode as E
+import Navigation
 import Task
 import Window
 
 
 main : Program Never Model Msg
 main =
-    Html.program { init = init, update = update, subscriptions = subscriptions, view = view }
+    Navigation.program UrlChange { init = init, update = update, subscriptions = subscriptions, view = view }
 
 
 stylesheet =
@@ -48,6 +49,7 @@ type alias Model =
     , cookie : String
     , quizSize : Float
     , ipAddress : String
+    , location : Navigation.Location
     }
 
 
@@ -63,8 +65,8 @@ type Choice
     | Wrong String
 
 
-init : ( Model, Cmd Msg )
-init =
+init : Navigation.Location -> ( Model, Cmd Msg )
+init location =
     ( { screens = Intro :: questions ++ Results :: End :: []
       , score = 0
       , expectedChecksPerYear = ""
@@ -74,6 +76,7 @@ init =
       , cookie = ""
       , quizSize = 1
       , ipAddress = ""
+      , location = location
       }
     , Cmd.batch [ (getCookie "hubspotutk"), (Task.perform Resize Window.width), getIpAddress ]
     )
@@ -141,6 +144,7 @@ type Msg
     = Resize Int
     | Cookie String
     | IpAddressResponse (Result Http.Error String)
+    | UrlChange Navigation.Location
     | NextScreen
     | AnsweredCorrect
     | Name String
@@ -174,6 +178,9 @@ update msg model =
         IpAddressResponse (Err _) ->
             ( model, Cmd.none )
 
+        UrlChange location ->
+            ( model, Cmd.none )
+
         NextScreen ->
             ( { model | screens = advanceOneScreen model.screens }, Cmd.none )
 
@@ -201,13 +208,16 @@ update msg model =
             ( model, submitForm model )
 
         {- Hubspot returns successful Posts as 302 redirects, and I haven't figured out how
-        to handle them because they result in an error not listed in Http.Error -}
+           to handle them because they result in an error not listed in Http.Error
+        -}
         HubspotResponse _ ->
             ( { model | screens = advanceOneScreen model.screens }, Cmd.none )
 
+
 advanceOneScreen : List Screen -> List Screen
 advanceOneScreen screens =
-  List.drop 1 screens
+    List.drop 1 screens
+
 
 totalScore : Int -> Int
 totalScore score =
@@ -242,7 +252,8 @@ url model =
         ++ (Maybe.withDefault "" <| List.head (String.split " " model.name))
         ++ "&expected_checks_per_year="
         ++ model.expectedChecksPerYear
-        ++ "&lead_source_details__c=goodhire.com/compliance-quiz"
+        ++ "&lead_source_details__c="
+        ++ model.location.href
         ++ "&hs_context="
         ++ hsContextParam model
 
@@ -287,6 +298,7 @@ view model =
         , style [ ( "transform", quizSize model ), ( "transformOrigin", "0px 0px 0px" ) ]
         ]
         [ stylesheet
+        , p [] [ text <| toString model.ipAddress ]
         , case currentScreen model.screens of
             Intro ->
                 viewIntro
