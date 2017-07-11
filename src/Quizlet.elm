@@ -74,7 +74,7 @@ init location =
       , workEmail = ""
       , error = Nothing
       , cookie = ""
-      , quizSize = 1
+      , quizSize = 0.785
       , ipAddress = ""
       , location = location
       }
@@ -161,10 +161,12 @@ update msg model =
         Resize int ->
             ( { model
                 | quizSize =
-                    if int < 700 then
+                    if (int < 1158 && int > 768) then
+                        (toFloat int / 2.09) / 700
+                    else if int < 550 then
                         (toFloat int) / 700
                     else
-                        1
+                        0.785
               }
             , Cmd.none
             )
@@ -294,11 +296,10 @@ subscriptions model =
 view : Model -> Html Msg
 view model =
     div
-        [ id Main
+        [ class [ Quiz ]
         , style [ ( "transform", quizSize model ), ( "transformOrigin", "0px 0px 0px" ) ]
         ]
         [ stylesheet
-        , p [] [ text <| toString model.ipAddress ]
         , case currentScreen model.screens of
             Intro ->
                 viewIntro
@@ -336,7 +337,7 @@ currentScreen screenList =
 viewIntro : Html Msg
 viewIntro =
     div [ class [ Slide ] ]
-        [ p [] [ text "Think you know the rules? Find out now!" ]
+        [ p [ id IntroText ] [ text "Think you know the rules? Find out now!" ]
         , button [ onClick NextScreen, id StartButton ] [ text "GET STARTED" ]
         ]
 
@@ -356,10 +357,10 @@ viewChoice : Int -> Choice -> Html Msg
 viewChoice index choice =
     case choice of
         Correct str ->
-            button [ onClick AnsweredCorrect, class [ "choice" ++ toString (index + 1) ] ] [ text str ]
+            button [ onClick AnsweredCorrect, id [ "choice" ++ toString (index + 1) ] ] [ text str ]
 
         Wrong str ->
-            button [ onClick NextScreen, class [ "choice" ++ toString (index + 1) ] ] [ text str ]
+            button [ onClick NextScreen, id [ "choice" ++ toString (index + 1) ] ] [ text str ]
 
 
 
@@ -376,7 +377,7 @@ viewResults model =
 
 viewForm : Model -> Html Msg
 viewForm model =
-    form [ onSubmit <| validateForm model.workEmail ] <|
+    form [ onSubmit <| validateForm model.workEmail, id "8cca0d24-f2b4-4f80-938a-01afafa06337" ] <|
         viewError model.error
             ++ [ input [ placeholder "Work Email", onInput WorkEmail ] [] ]
             ++ [ input [ placeholder "Name", onInput Name ] [] ]
@@ -413,10 +414,10 @@ viewError : Maybe String -> List (Html Msg)
 viewError error =
     case error of
         Just message ->
-            [ p [ id ErrorMessageOn, class [ ErrorMessage ] ] [ text message ] ]
+            [ p [ id ErrorMessageOn ] [ text message ] ]
 
         Nothing ->
-            [ p [ class [ ErrorMessage ] ] [] ]
+            [ p [ id ErrorMessage ] [] ]
 
 
 viewDropdown : List (Html Msg)

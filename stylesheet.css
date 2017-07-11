@@ -1,4 +1,4 @@
-#Main {
+.quizletQuiz {
     width: 700px;
     height: 400px;
     margin: 0;
@@ -6,24 +6,20 @@
     position: relative;
 }
 
-div {
-    font-family: Source Sans Pro;
-    color: rgb(255, 255, 255);
+.quizletQuiz  div {
+    font-family: Source Sans Pro !important;
 }
 
-p {
-    font-size: 30px;
+.quizletQuiz  p {
+    color: rgb(255, 255, 255) !important;
+    font-size: 30px !important;
     text-align: center;
     padding: 30px 10px 0px 10px;
     width: 680px;
     position: absolute;
 }
 
-.quizletSlide {
-    height: 115px;
-}
-
-button {
+.quizletQuiz  button {
     position: absolute;
     font-size: 24px;
     color: rgb(255, 255, 255);
@@ -36,36 +32,11 @@ button {
     transform: translate(0, 45px);
 }
 
-button:focus {
+.quizletQuiz  button:focus {
     outline: 0;
 }
 
-#StartButton {
-    transform: translate(190px, 200px);
-}
-
-.quizletchoice1 {
-    transform: translate(25px, 225px);
-}
-
-.quizletchoice2 {
-    transform: translate(355px, 225px);
-}
-
-.quizletchoice3 {
-    transform: translate(25px, 305px);
-}
-
-.quizletchoice4 {
-    transform: translate(355px, 305px);
-}
-
-#SubmitButton {
-    position: absolute;
-    transform: translate(165px, 205px);
-}
-
-input {
+.quizletQuiz  input {
     display: inline-block;
     width: 300px;
     height: 34px;
@@ -77,10 +48,56 @@ input {
     border: 1px solid #ccc;
     border-radius: 4px;
     transform: translate(15px, 180px);
+    box-sizing: content-box !important;
 }
 
-.quizletErrorMessage {
+.quizletQuiz  select {
+    display: block;
     font-size: 17px;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    padding: 10px;
+    transform: translate(15px, 190px);
+    width: 510px;
+    font-weight: normal;
+}
+
+#IntroText {
+    padding: 80px 10px 0px 10px;
+}
+
+.quizletSlide {
+    height: 115px;
+}
+
+#StartButton {
+    transform: translate(190px, 200px);
+}
+
+#choice1 {
+    transform: translate(25px, 225px);
+}
+
+#choice2 {
+    transform: translate(355px, 225px);
+}
+
+#choice3 {
+    transform: translate(25px, 305px);
+}
+
+#choice4 {
+    transform: translate(355px, 305px);
+}
+
+#SubmitButton {
+    position: absolute;
+    transform: translate(165px, 205px);
+}
+
+#ErrorMessage {
+    font-size: 17px !important;
     text-align: center;
     width: 670px;
     height: 30px;
@@ -92,17 +109,14 @@ input {
 
 #ErrorMessageOn {
     background-color: #FF4136;
-    visibility: visible;
-}
-
-select {
-    display: block;
-    font-size: 17px;
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    appearance: none;
-    padding: 10px;
-    transform: translate(15px, 190px);
+    visibility: visible !important;
+    font-size: 17px !important;
+    text-align: center;
+    width: 670px;
+    height: 30px;
+    margin: 0 0 0 15px;
+    transform: translate(0, 150px);
+    padding: 0;
 }
 
 html, body, div, span, h1, h2, h3, h4, h5, h6, blockquote, pre, a {
