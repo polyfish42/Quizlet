@@ -1,6 +1,8 @@
 # Hubspot Quizlet
 This is a compliance quiz that I built as a marketing lead generation tool. Right now it's configured to work for my company's needs, but will a little customization anyone can use it.
 
+![Quizlet Video Demo](https://media.giphy.com/media/xT39D43M21Udi2SQA8/giphy.gif)
+
 ## Getting Started
 You'll need a few things to get started.
 ### Prerequisites
